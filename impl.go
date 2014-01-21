@@ -5,7 +5,7 @@
 package plplot
 
 import (
-	"go-plplot/c"
+	"github.com/hailiang/go-plplot/c"
 	"path/filepath"
 )
 
