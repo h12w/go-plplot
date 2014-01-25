@@ -73,6 +73,7 @@ const (
 
 type Argument struct {
 	Name string
+	Type string
 	Di   Direction
 	Doc  string
 }
@@ -108,6 +109,7 @@ func parseArgs(entries []VarListEntry) (params []Argument) {
 		for _, paramName := range paramNames {
 			params = append(params, Argument{
 				Name: strings.TrimSpace(paramName),
+				Type: strings.TrimSpace(entry.Term.Literal),
 				Di:   direction,
 				Doc:  cleanText(entry.Para.CharData),
 			})

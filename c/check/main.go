@@ -39,14 +39,18 @@ func main() {
 	for _, df := range docFuncs {
 		if hf := findHeaderFunc(h, df.Name); hf != nil {
 			if len(hf.Arguments) != len(df.Args) {
-				p("parameter count mismatch for function", df.Name)
-				break
+				p("para count mismatch for func", df.Name)
+				continue
 			}
 			for i := range df.Args {
 				da, ha := df.Args[i], hf.Arguments[i]
 				if da.Name != ha.CName() {
-					p("number", i, "parameter name mismatch for function",
-						df.Name, "(", da.Name, ha.CName(), ")")
+					p("para", i, "of func", df.Name, "name mismatch [",
+						da.Name, "] vs. [", ha.CName(), "]")
+				}
+				if gccType := strings.TrimSpace(gcc.QualifiedTypeString(ha.CType(), "")); da.Type != gccType {
+					p("para", i, "of func", df.Name, "type mismatch",
+						"[", da.Type, "] vs. [", gccType, "]")
 				}
 			}
 		} else {
