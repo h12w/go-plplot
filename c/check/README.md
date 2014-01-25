@@ -1,27 +1,25 @@
 check
 =====
 
-It is a simple program to check the consistancy between the header file and the
+This is a simple program for checking the consistancy between the header file and the
 xml document of PLPlot.
 
 Here are minimal steps to run the program:
 
-* Get and install the current stable version of Go language
+* Get and install the current stable version of Go language (just install it and Set GOPATH environment variable)
 
    Please refer to: http://golang.org/doc/install
 
-* Set GOPATH environment variable
+* Use "go get" tool to download this package
 
-* Use "go get" tool to download this package:
-
-    go get -u github.com/hailiang/go-plplot
+        go get -u github.com/hailiang/go-plplot
 
 * Build
 
-    cd $GOPATH/github.com/hailiang/go-plplot/c/check
-    go build
+        cd $GOPATH/github.com/hailiang/go-plplot/c/check
+        go build
 
-* Run it without argument to see the command line option available
+* Run it without argument to see the command line arguments available
 
-    ./check
+        ./check
 
