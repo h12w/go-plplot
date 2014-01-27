@@ -7,6 +7,7 @@ package main
 import (
 	"flag"
 	gcc "github.com/hailiang/go-gccxml"
+	"os"
 	"strings"
 )
 
@@ -22,6 +23,8 @@ func main() {
 		return
 	}
 
+	hasMismatch := false
+
 	docFuncs := ParseApiXml(*apixml, "pl")
 	h, err := gcc.Xml{*header}.Doc()
 	c(err)
@@ -32,6 +35,7 @@ func main() {
 		}
 		if df := docFuncs.Find(trimPrefix(hf.CName(), "c_")); df != nil {
 		} else {
+			hasMismatch = true
 			p(hf.CName(), "is not documented.")
 		}
 	}
@@ -39,23 +43,31 @@ func main() {
 	for _, df := range docFuncs {
 		if hf := findHeaderFunc(h, df.Name); hf != nil {
 			if len(hf.Arguments) != len(df.Args) {
+				hasMismatch = true
 				p("para count mismatch for func", df.Name)
 				continue
 			}
 			for i := range df.Args {
 				da, ha := df.Args[i], hf.Arguments[i]
 				if da.Name != ha.CName() {
+					hasMismatch = true
 					p("para", i, "of func", df.Name, "name mismatch [",
 						da.Name, "] vs. [", ha.CName(), "]")
 				}
 				if gccType := strings.TrimSpace(gcc.QualifiedTypeString(ha.CType(), "")); da.Type != gccType {
+					hasMismatch = true
 					p("para", i, "of func", df.Name, "type mismatch",
 						"[", da.Type, "] vs. [", gccType, "]")
 				}
 			}
 		} else {
+			hasMismatch = true
 			p(df.Name, "does not exist but remains in doc.")
 		}
+	}
+
+	if hasMismatch {
+		os.Exit(-1)
 	}
 }
 
