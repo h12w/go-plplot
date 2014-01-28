@@ -54,7 +54,7 @@ func main() {
 					p("para", i, "of func", df.Name, "name mismatch [",
 						da.Name, "] vs. [", ha.CName(), "]")
 				}
-				if gccType := strings.TrimSpace(gcc.QualifiedTypeString(ha.CType(), "")); da.Type != gccType {
+				if gccType := strings.TrimSpace(ha.CType().CDecl("")); da.Type != gccType {
 					hasMismatch = true
 					p("para", i, "of func", df.Name, "type mismatch",
 						"[", da.Type, "] vs. [", gccType, "]")
