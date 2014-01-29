@@ -14,6 +14,7 @@ import (
 var (
 	apixml = flag.String("apixml", "", "Path of api.xml")
 	header = flag.String("header", "", "Path of plplot.h")
+	incdir = flag.String("incdir", "", "colon seperated include directories")
 )
 
 func main() {
@@ -23,10 +24,18 @@ func main() {
 		return
 	}
 
+	var incDirs []string
+	if incdir != nil {
+		incDirs = strings.Split(*incdir, ":")
+	}
+	for i := range incDirs {
+		incDirs[i] = "-I" + incDirs[i]
+	}
+
 	hasMismatch := false
 
 	docFuncs := ParseApiXml(*apixml, "pl")
-	h, err := gcc.Xml{*header}.Doc()
+	h, err := gcc.Xml{*header, incDirs}.Doc()
 	c(err)
 
 	for _, hf := range h.Functions {
