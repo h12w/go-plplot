@@ -5,7 +5,7 @@
 package c
 
 /*
-#include <plplot.h>
+#include <plplot/plplot.h>
 */
 import "C"
 
