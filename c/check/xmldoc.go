@@ -15,7 +15,7 @@ import (
 var (
 	directionRe = regexp.MustCompile(`(?s).*(input|output).*`)
 	spacesRe    = regexp.MustCompile(`(?s)\s+`)
-	refRe       = regexp.MustCompile(`&\w+;`)
+	refRe       = regexp.MustCompile(`&[\w\-]+;`)
 )
 
 type Chapter struct {
@@ -134,7 +134,14 @@ func escape(buf []byte, prefix string) []byte {
 		case "lt", "gt", "amp":
 			return ref
 		}
-		return []byte("function " + toGoFuncName(refName, prefix))
+		funcDoc := "function "
+
+		for _, basicTypePrefix := range []string{"PLINT", "PLFLT", "PLBOOL", "PLCHAR", "PL_GENERIC", "PL_NC", "PLUNICODE", "PLGraphics"} {
+			if strings.HasPrefix(refName, basicTypePrefix) {
+				funcDoc = ""
+			}
+		}
+		return []byte(funcDoc + toGoFuncName(refName, prefix))
 	})
 }
 

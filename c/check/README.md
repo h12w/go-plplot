@@ -12,11 +12,11 @@ Here are minimal steps to run the program:
 
 * Use "go get" tool to download this package
 
-        go get -u github.com/hailiang/go-plplot
+        go get -u h12.me/go-plplot
 
 * Build
 
-        cd $GOPATH/github.com/hailiang/go-plplot/c/check
+        cd $GOPATH/h12.me/go-plplot/c/check
         go build
 
 * Run it without argument to see the command line arguments available

@@ -6,7 +6,7 @@ package main
 
 import (
 	"flag"
-	gcc "github.com/hailiang/go-gccxml"
+	gcc "h12.me/go-gccxml"
 	"os"
 	"strings"
 )
