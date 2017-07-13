@@ -6,9 +6,10 @@ package main
 
 import (
 	"flag"
-	gcc "h12.me/go-gccxml"
 	"os"
 	"strings"
+
+	gcc "h12.me/go-gccxml"
 )
 
 var (
@@ -57,16 +58,18 @@ func main() {
 				continue
 			}
 			for i := range df.Args {
-				da, ha := df.Args[i], hf.Arguments[i]
-				if da.Name != ha.CName() {
+				docArg, headerArg := df.Args[i], hf.Arguments[i]
+				if docArg.Name != headerArg.CName() {
 					hasMismatch = true
-					p("para", i, "of func", df.Name, "name mismatch [",
-						da.Name, "] vs. [", ha.CName(), "]")
+					p("para", i, "of func", df.Name, "NAME mismatch doc[",
+						docArg.Name, "] vs. header[", headerArg.CName(), "]")
 				}
-				if gccType := strings.TrimSpace(ha.CType().CDecl("")); da.Type != gccType {
+				gccType := trimArgType(headerArg.CType().CDecl(""))
+				docType := trimArgType(docArg.Type)
+				if docType != gccType {
 					hasMismatch = true
-					p("para", i, "of func", df.Name, "type mismatch",
-						"[", da.Type, "] vs. [", gccType, "]")
+					p("para", i, "of func", df.Name, "TYPE mismatch",
+						"doc[", docType, "] vs. header[", gccType, "]")
 				}
 			}
 		} else {
@@ -91,4 +94,12 @@ func findHeaderFunc(h *gcc.XmlDoc, name string) *gcc.Function {
 
 func trimPrefix(s, prefix string) string {
 	return strings.TrimPrefix(s, prefix)
+}
+
+func trimArgType(s string) string {
+	s = strings.TrimSpace(s)
+	s = strings.TrimPrefix(s, "function ")
+	s = strings.TrimPrefix(s, "struct ")
+	s = strings.TrimSpace(s)
+	return s
 }

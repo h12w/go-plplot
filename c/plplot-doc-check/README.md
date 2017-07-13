@@ -1,5 +1,5 @@
-check
-=====
+plplot-doc-check
+================
 
 This is a simple program for checking the consistancy between the header file and the
 xml document of PLPlot.
@@ -12,14 +12,14 @@ Here are minimal steps to run the program:
 
 * Use "go get" tool to download this package
 
-        go get -u h12.me/go-plplot
+        go get -u h12.me/go-plplot/c/plplot-doc-check
 
 * Build
 
-        cd $GOPATH/h12.me/go-plplot/c/check
+        cd $GOPATH/h12.me/go-plplot/c/plplot-doc-check
         go build
 
 * Run it without argument to see the command line arguments available
 
-        ./check
+        ./plplot-doc-check
 
