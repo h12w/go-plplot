@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	gcc "h12.me/go-gccxml"
+	gcc "h12.io/go-gccxml"
 )
 
 var (

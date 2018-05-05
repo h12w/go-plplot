@@ -5,7 +5,7 @@
 package plplot
 
 import (
-	"h12.me/go-plplot/c"
+	"h12.io/go-plplot/c"
 	"path/filepath"
 )
 
