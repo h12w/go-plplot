@@ -13,9 +13,10 @@ import (
 )
 
 var (
-	apixml = flag.String("apixml", "", "Path of api.xml")
-	header = flag.String("header", "", "Path of plplot.h")
-	incdir = flag.String("incdir", "", "colon seperated include directories")
+	apixml  = flag.String("apixml", "", "Path of api.xml")
+	header  = flag.String("header", "", "Path of plplot.h")
+	incdir  = flag.String("incdir", "", "colon seperated include directories")
+	castxml = flag.Bool("castxml", false, "whether to use castxml instead of gccxml")
 )
 
 func main() {
@@ -36,7 +37,7 @@ func main() {
 	hasMismatch := false
 
 	docFuncs := ParseApiXml(*apixml, "pl")
-	h, err := gcc.Xml{*header, incDirs}.Doc()
+	h, err := gcc.Xml{File: *header, Args: incDirs, CastXml: *castxml}.Doc()
 	c(err)
 
 	for _, hf := range h.Functions {
